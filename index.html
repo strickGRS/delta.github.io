@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta - База клиентов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #0066cc;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0055aa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Delta</h1>
+    <h2>Добавление клиента</h2>
+    
+    <form id="clientForm">
+        <div class="form-group">
+            <label for="fullName">ФИО:</label>
+            <input type="text" id="fullName" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="birthDate">Дата рождения (ДД.ММ.ГГ):</label>
+            <input type="text" id="birthDate" placeholder="31.12.1990" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Описание клиента:</label>
+            <textarea id="description" required></textarea>
+        </div>
+        
+        <button type="button" onclick="saveToTxt()">Отправить</button>
+    </form>
+
+    <script>
+        function saveToTxt() {
+            // Получаем данные из формы
+            const fullName = document.getElementById('fullName').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const description = document.getElementById('description').value;
+
+            // Формируем текст для сохранения
+            const data = 
+ФИО: ${fullName}
+Дата рождения: ${birthDate}
+Описание:
+${description}
+------------------------
+;
+
+            // Создаем Blob (бинарный объект) с текстом
+            const blob = new Blob([data], { type: 'text/plain' });
+
+            // Создаем ссылку для скачивания
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = Клиент_${fullName.split(' ')[0]}.txt;  // Имя файла: "Клиент_Иванов.txt"
+
+            // Автоматически нажимаем на ссылку для скачивания
+            a.click();
+
+            // Очищаем форму после отправки
+            document.getElementById('clientForm').reset();
+        }
+    </script>
+</body>
+</html>
